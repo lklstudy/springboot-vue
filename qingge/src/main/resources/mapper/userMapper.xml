@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingge.springboot.mapper.UserMapper">
+    <update id="update">
+        update sys_user
+        <set>
+            <if test="username != null">
+                username=#{username},
+            </if>
+<!--             一般修改密码是在另一个页面-->
+<!--            <if test="password != null">-->
+<!--                password=#{password}-->
+<!--            </if>-->
+            <if test="nickname != null">
+                nickname=#{nickname},
+            </if>
+            <if test="email != null">
+                email=#{email},
+            </if>
+            <if test="phone != null">
+                phone=#{phone},
+            </if>
+            <if test="address != null">
+                address=#{address}
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <select id="findPage" resultType="com.qingge.springboot.entity.User">
+        select * from sys_user
+        <where>
+            <if test="select == 1 and select != null and select != ''">
+                username like #{input}
+            </if>
+            <if test="select == 2 and select != null and select != ''">
+                and phone like #{input}
+            </if>
+            <if test="select == 3 and select != null and select != ''">
+                and email like #{input}
+            </if>
+        </where>
+            limit #{pageNum},#{pageSize}
+    </select>
+
+    <select id="findAllNum" resultType="int">
+        select count(*) from sys_user
+        <where>
+            <if test="select == 1 and select != null and select != ''">
+                username like #{input}
+            </if>
+            <if test="select == 2 and select != null and select != ''">
+                and phone like #{input}
+            </if>
+            <if test="select == 3 and select != null and select != ''">
+                and email like #{input}
+            </if>
+        </where>
+    </select>
+
+</mapper>
